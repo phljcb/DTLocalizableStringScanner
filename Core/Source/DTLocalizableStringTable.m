@@ -96,10 +96,6 @@
     
     // multi-line comments are indented
     NSString *comment = [[entry sortedComments] componentsJoinedByString:@"\n   "];
-    if (!comment)
-    {
-      comment = @"No comment provided by engineer.";
-    }
     
     if (_shouldDecodeUnicodeSequences)
     {
@@ -123,12 +119,13 @@
     }
     
     // output comment
-    [tmpString appendFormat:@"/* %@ */\n", comment];
+    if (comment)
+    {
+      [tmpString appendFormat:@"/* %@ */\n", comment];
+    }
     
     // output line
     [tmpString appendFormat:@"%@ = %@;\n", key, value];
-    
-    [tmpString appendString:@"\n"];
   }
   
   return [NSString stringWithString:tmpString];
